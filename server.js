@@ -9,7 +9,7 @@ app.use(cors());
 app.use(express.json());
 
 // Routes
-app.use("/api/details", detailsRoute)
+app.use("/api/details", detailsRoute);
 
 // Default route
 app.get("/", (_, res) => {
@@ -17,6 +17,8 @@ app.get("/", (_, res) => {
 });
 
 // Connect Database
-connectDB()
+connectDB();
 // Start the server
-app.listen(config.PORT, () => console.log(`✅ Server running on port ${config.PORT}`));
+app.listen(config.PORT, () =>
+  console.log(`✅ Server running on port ${config.PORT}`),
+);

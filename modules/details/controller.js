@@ -3,19 +3,21 @@ import { VideoDetails } from "./model.js";
 export const addData = async (req, res) => {
   try {
     const body = req.body;
-    
+
     // Check duplicate by link
     const exists = await VideoDetails.findOne({ link: body.link });
     if (exists) {
       return res.status(400).json({
         success: false,
-        message: "Duplicate record! This video already exists."
+        message: "Duplicate record! This video already exists.",
       });
     }
 
     const data = await VideoDetails.create(body);
 
-    return res.status(200).json({success: true, message: "Data Added successfully", data:data});
+    return res
+      .status(200)
+      .json({ success: true, message: "Data Added successfully", data: data });
   } catch (error) {
     console.error("❌ Error fetching data:", error);
     res.status(500).json({ success: false, message: "Server error" });
@@ -25,7 +27,13 @@ export const addData = async (req, res) => {
 export const getData = async (_, res) => {
   try {
     const data = await VideoDetails.find().sort({ createdAt: -1 });
-    res.status(200).json({success: true, message: "Data fetched successfully", data:data});
+    res
+      .status(200)
+      .json({
+        success: true,
+        message: "Data fetched successfully",
+        data: data,
+      });
   } catch (error) {
     console.error("❌ Error fetching data:", error);
     res.status(500).json({ success: false, message: "Server error" });
@@ -37,11 +45,10 @@ export const updateData = async (req, res) => {
     const { id } = req.params;
     const body = req.body;
 
-    const updatedData = await VideoDetails.findByIdAndUpdate(
-      id,
-      body,
-      { new: true, runValidators: true }
-    );
+    const updatedData = await VideoDetails.findByIdAndUpdate(id, body, {
+      new: true,
+      runValidators: true,
+    });
 
     if (!updatedData) {
       return res.status(404).json({
